@@ -1,0 +1,11 @@
+{
+  "name": "drink-tally",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "Personal weekly drink log. iPhone home screen web app.",
+  "scripts": {
+    "test": "node --test",
+    "serve": "python3 -m http.server 8000"
+  }
+}
