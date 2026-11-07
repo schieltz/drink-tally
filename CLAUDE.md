@@ -1,4 +1,4 @@
-# Drink Tally
+# Tipsy
 
 Personal drink log. iPhone home screen web app on GitHub Pages. Read `SPEC.md` before changing behavior.
 
@@ -20,3 +20,4 @@ Personal drink log. iPhone home screen web app on GitHub Pages. Read `SPEC.md` b
 - Entries copy their components and std, so preset edits never change history.
 - Every asset path is relative (`./`). The site lives at `/drink-tally/`.
 - On every release: bump `CACHE` in `sw.js` and `VERSION` in `app.js` together. Add any new file to `ASSETS` in `sw.js`.
+- Naming: the app is "Tipsy" and the display unit is "BVG" (one US standard drink). Internal names stay as they are so saved data keeps working: the `std` field, the `drinkTally.v1` storage key, the `tally-` cache prefix, and the `drink-tally` repo and URL.

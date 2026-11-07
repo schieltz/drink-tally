@@ -269,7 +269,7 @@ test('CSV export escapes commas and quotes', () => {
     },
   ]);
   const lines = csv.trim().split('\r\n');
-  assert.equal(lines[0], 'day,time,drink,std,components,note');
+  assert.equal(lines[0], 'day,time,drink,bvg,components,note');
   assert.equal(lines[1], '2026-11-06,21:05,Martini,2.15,Gin 3 oz 40%,"Big pour, ""very"" dry"');
 });
 

@@ -1,10 +1,10 @@
-// Drink Tally UI. All math lives in logic.js.
+// Tipsy UI. All math lives in logic.js.
 import * as L from './logic.js';
 import { DEFAULT_PRESETS } from './presets.js';
 import { FALLBACK_LINES } from './messages.js';
 import { load, save, requestPersist } from './store.js';
 
-const VERSION = '1.0.0'; // keep in step with CACHE in sw.js
+const VERSION = '1.1.0'; // keep in step with CACHE in sw.js
 
 const $ = (sel, root = document) => root.querySelector(sel);
 const esc = (s) =>
@@ -108,17 +108,17 @@ function ringSvg(total, target, state) {
     frac > 0
       ? `<circle class="ring-fill" cx="100" cy="100" r="${R}" stroke-dasharray="${(frac * C).toFixed(2)} ${C.toFixed(2)}" transform="rotate(-90 100 100)"/>`
       : '';
-  return `<svg class="ring is-${state}" viewBox="0 0 200 200" role="img" aria-label="${f1(total)} of ${num(target)} standard drinks this week">
+  return `<svg class="ring is-${state}" viewBox="0 0 200 200" role="img" aria-label="${f1(total)} of ${num(target)} BVG this week">
     <circle class="ring-track" cx="100" cy="100" r="${R}"/>${arc}
     <text class="ring-num" x="100" y="110">${f1(total)}</text>
-    <text class="ring-sub" x="100" y="136">of ${num(target)} std</text></svg>`;
+    <text class="ring-sub" x="100" y="136">of ${num(target)} BVG</text></svg>`;
 }
 
 function dayCell(d, v, t, maxDay) {
   const h = v > 0 ? Math.max(6, Math.min(44, Math.round((v / maxDay) * 44))) : 3;
   const cls = ['day', d === t ? 'is-today' : '', d > t ? 'is-future' : ''].join(' ').trim();
   const dot = L.overCap(v, S().dailyCap) ? '<span class="cap-dot" aria-hidden="true"></span>' : '';
-  return `<button class="${cls}" data-act="open-day" data-day="${d}" aria-label="${dayLabel(d)}, ${f1(v)} std">
+  return `<button class="${cls}" data-act="open-day" data-day="${d}" aria-label="${dayLabel(d)}, ${f1(v)} BVG">
     <span class="bar-box">${dot}<span class="bar${v > 0 ? ' has' : ''}" style="height:${h}px"></span></span>
     <span class="day-name">${DOW[L.weekdayOf(d)].slice(0, 1)}</span>
     <span class="day-val">${v > 0 ? f1(v) : ''}</span></button>`;
@@ -126,7 +126,7 @@ function dayCell(d, v, t, maxDay) {
 
 function presetButton(p, act) {
   const press = act === 'log' ? ' data-press="1"' : '';
-  return `<button class="preset" data-act="${act}"${press} data-id="${esc(p.id)}"><span class="p-name">${esc(p.name)}</span><span class="p-std">${f1(L.drinkStd(p.components))} std</span></button>`;
+  return `<button class="preset" data-act="${act}"${press} data-id="${esc(p.id)}"><span class="p-name">${esc(p.name)}</span><span class="p-std">${f1(L.drinkStd(p.components))} BVG</span></button>`;
 }
 
 function presetButtons(t) {
@@ -158,7 +158,7 @@ function checkinBody(d, total, where) {
     .join('');
   const title = where === 'card' ? 'How do you feel this morning?' : 'How did you feel the morning after?';
   return `<h2>${title}</h2>
-    <p class="sub">${dayLabel(d.day)}: ${f1(total)} std</p>
+    <p class="sub">${dayLabel(d.day)}: ${f1(total)} BVG</p>
     <div class="chips five">${feel}</div>
     <p class="label">Sleep (optional)</p><div class="chips">${sleep}</div>
     <input class="input" type="text" placeholder="Note (optional)" maxlength="200" data-field="ci-note" data-where="${where}" value="${esc(d.note)}">
@@ -209,7 +209,7 @@ function renderHistory() {
     }</section>
     <section class="card"><h2>Top drinks, last 30 days</h2>${
       top.length
-        ? `<ul class="rows">${top.map((d) => `<li><span>${esc(d.label)} <span class="muted">x${d.count}</span></span><span>${f1(d.std)} std</span></li>`).join('')}</ul>`
+        ? `<ul class="rows">${top.map((d) => `<li><span>${esc(d.label)} <span class="muted">x${d.count}</span></span><span>${f1(d.std)} BVG</span></li>`).join('')}</ul>`
         : '<p class="muted">Nothing logged in the last 30 days.</p>'
     }</section>
     ${historyList(ws)}`;
@@ -231,7 +231,7 @@ function chartSvg(series, target) {
       const x = pl + i * cw + (cw - bw) / 2;
       const top = y(s.total);
       const h = Math.max(0, H - pb - top);
-      return `<rect class="cbar is-${L.ringState(s.total, target)}" x="${x.toFixed(1)}" y="${top.toFixed(1)}" width="${bw.toFixed(1)}" height="${h.toFixed(1)}" rx="3"><title>Week of ${shortDay(s.start)}: ${f1(s.total)} std</title></rect>`;
+      return `<rect class="cbar is-${L.ringState(s.total, target)}" x="${x.toFixed(1)}" y="${top.toFixed(1)}" width="${bw.toFixed(1)}" height="${h.toFixed(1)}" rx="3"><title>Week of ${shortDay(s.start)}: ${f1(s.total)} BVG</title></rect>`;
     })
     .join('');
   const labels = series
@@ -242,7 +242,7 @@ function chartSvg(series, target) {
     })
     .join('');
   const ty = y(target).toFixed(1);
-  return `<svg class="chart" viewBox="0 0 ${W} ${H}" role="img" aria-label="Weekly standard drinks for the last 12 weeks">
+  return `<svg class="chart" viewBox="0 0 ${W} ${H}" role="img" aria-label="Weekly BVG for the last 12 weeks">
     <line class="base" x1="${pl}" x2="${W - pr}" y1="${H - pb}" y2="${H - pb}"/>
     ${bars}
     <line class="target" x1="${pl}" x2="${W - pr}" y1="${ty}" y2="${ty}"/>
@@ -277,7 +277,7 @@ function historyList(ws) {
           return `<button class="day-row" data-act="open-day" data-day="${d}"><span class="dr-day">${dayLabel(d)}</span><span class="dr-what">${esc(L.groupsText(L.groupRepeats(de)))}</span><span class="dr-std">${f1(L.sumStd(de))}</span></button>`;
         })
         .join('');
-      return `<div class="week-block"><div class="week-head"><span>Week of ${shortDay(w)}</span><span>${f1(L.sumStd(es))} std</span></div>${rows}</div>`;
+      return `<div class="week-block"><div class="week-head"><span>Week of ${shortDay(w)}</span><span>${f1(L.sumStd(es))} BVG</span></div>${rows}</div>`;
     })
     .join('');
   const more = weeks.length > shown.length ? '<button class="btn ghost wide" data-act="hist-more">Show more</button>' : '';
@@ -299,7 +299,7 @@ function renderSettings() {
   const presets = data.presets
     .map(
       (p, i) => `<li>
-      <button class="pl-main" data-act="edit-preset" data-id="${esc(p.id)}"><span>${esc(p.name)}</span><span class="muted">${f1(L.drinkStd(p.components))} std</span></button>
+      <button class="pl-main" data-act="edit-preset" data-id="${esc(p.id)}"><span>${esc(p.name)}</span><span class="muted">${f1(L.drinkStd(p.components))} BVG</span></button>
       <button class="icon-btn" data-act="move-preset" data-id="${esc(p.id)}" data-d="-1" aria-label="Move ${esc(p.name)} up"${i === 0 ? ' disabled' : ''}>↑</button>
       <button class="icon-btn" data-act="move-preset" data-id="${esc(p.id)}" data-d="1" aria-label="Move ${esc(p.name)} down"${i === data.presets.length - 1 ? ' disabled' : ''}>↓</button></li>`,
     )
@@ -332,8 +332,8 @@ function renderSettings() {
       <input type="file" id="import-file" accept="application/json,.json" hidden>
     </section>
     <section class="card"><h2>About</h2>
-      <p>One US standard drink is 14 g of pure alcohol (0.6 fl oz). Drink Tally adds up each alcoholic ingredient: oz x ABV / 0.6.</p>
-      <p>Example: a martini with 2.5 oz of 40% vodka and 0.5 oz of 18% vermouth is 1.8 standard drinks.</p>
+      <p>1 BVG is one US standard drink: 14 g of pure alcohol (0.6 fl oz). Tipsy adds up each alcoholic ingredient: oz x ABV / 0.6.</p>
+      <p>Example: a martini with 2.5 oz of 40% vodka and 0.5 oz of 18% vermouth is 1.8 BVG.</p>
       <p class="muted">Estimates only. Bar pours vary. Not medical advice. Version ${VERSION}.</p>
     </section>`;
 }
@@ -372,7 +372,7 @@ function sheetError(msg) {
 }
 
 function stdLine(components) {
-  return `<p class="big-std"><span id="sheet-std">${f1(L.drinkStd(components))}</span> <span class="muted">std each</span></p>`;
+  return `<p class="big-std"><span id="sheet-std">${f1(L.drinkStd(components))}</span> <span class="muted">BVG each</span></p>`;
 }
 
 function countRow(s) {
@@ -385,7 +385,7 @@ function saveLabel(s) {
   const each = L.drinkStd(s.components);
   const n = s.count || 1;
   const verb = s.mode === 'edit' ? 'Save' : 'Log';
-  return n > 1 ? `${verb} ${n} (${f1(each * n)} std)` : `${verb} (${f1(each)} std)`;
+  return n > 1 ? `${verb} ${n} (${f1(each * n)} BVG)` : `${verb} (${f1(each)} BVG)`;
 }
 
 function whenHint(s) {
@@ -528,7 +528,7 @@ function daySheet(s) {
       ? `<p>${L.FEEL[ci.feel]}${ci.sleep ? `, sleep ${L.SLEEP[ci.sleep].toLowerCase()}` : ''}${ci.note ? `. ${esc(ci.note)}` : ''}</p><button class="btn ghost" data-act="ci-open" data-day="${s.day}">Edit check-in</button>`
       : `<button class="btn ghost" data-act="ci-open" data-day="${s.day}">Add check-in</button>`;
   return `<h2 class="sheet-title">${dayLabel(s.day)}</h2>
-    <p class="big-std">${f1(total)} <span class="muted">std${over}</span></p>
+    <p class="big-std">${f1(total)} <span class="muted">BVG${over}</span></p>
     ${list}
     <div class="row-end"><button class="btn" data-act="day-add" data-day="${s.day}">Add drink</button></div>
     <h3>Morning after</h3>${ciText}`;
@@ -645,7 +645,7 @@ function logPreset(id) {
   data.entries.push(e);
   commit();
   render();
-  showToast({ text: `${p.name}, ${f1(e.std)} std`, actions: [['Adjust', 'toast-adjust'], ['Undo', 'toast-undo']], ids: [e.id], ms: 6000 });
+  showToast({ text: `${p.name}, ${f1(e.std)} BVG`, actions: [['Adjust', 'toast-adjust'], ['Undo', 'toast-undo']], ids: [e.id], ms: 6000 });
 }
 
 function resolveWhen(s) {
@@ -708,7 +708,7 @@ function saveDrinkSheet() {
   render();
   const total = L.drinkStd(comps) * count;
   showToast({
-    text: `${count > 1 ? `${count} x ` : ''}${label}, ${f1(total)} std${s.mode === 'edit' ? ', saved' : ''}`,
+    text: `${count > 1 ? `${count} x ` : ''}${label}, ${f1(total)} BVG${s.mode === 'edit' ? ', saved' : ''}`,
     actions: s.mode === 'new' ? [['Undo', 'toast-undo']] : [],
     ids,
     ms: 5000,
@@ -764,7 +764,7 @@ async function onImportFile(input) {
     const { data: merged, counts } = L.mergeData(data, obj, DEFAULT_PRESETS);
     openSheet({ kind: 'import', merged, counts });
   } catch {
-    showToast({ text: 'That file is not a Drink Tally backup.', ms: 5000 });
+    showToast({ text: 'That file is not a Tipsy backup.', ms: 5000 });
   }
 }
 
@@ -998,7 +998,7 @@ const ACTIONS = {
     openPresetEditor(copy.id);
   },
   async 'export-json'() {
-    const name = `drink-tally-${L.localDay(new Date())}.json`;
+    const name = `tipsy-${L.localDay(new Date())}.json`;
     const ok = await exportFile(name, JSON.stringify(data, null, 2), 'application/json');
     if (ok) {
       S().lastBackup = Date.now();
@@ -1008,7 +1008,7 @@ const ACTIONS = {
     }
   },
   async 'export-csv'() {
-    await exportFile(`drink-tally-${L.localDay(new Date())}.csv`, L.toCSV(data.entries), 'text/csv');
+    await exportFile(`tipsy-${L.localDay(new Date())}.csv`, L.toCSV(data.entries), 'text/csv');
   },
   import() {
     const input = $('#import-file');

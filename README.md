@@ -1,6 +1,6 @@
-# Drink Tally
+# Tipsy
 
-A private drink log for iPhone. Log drinks at night in one or two taps. It counts US standard drinks, not glasses, and shows your week against a target (default 5). The morning after a drinking day, it asks how you feel, and over time it shows how your mornings change with how much you drank.
+A private drink log for iPhone. Log drinks at night in one or two taps. It counts BVGs (US standard drinks), not glasses, and shows your week against a target (default 5). The morning after a drinking day, it asks how you feel, and over time it shows how your mornings change with how much you drank.
 
 No accounts. No server. Your data stays on your phone.
 
@@ -10,9 +10,9 @@ No accounts. No server. Your data stays on your phone.
 3. Log only from the home screen icon. The icon app and Safari keep separate data.
 
 ## How it counts
-- 1 US standard drink = 14 g of pure alcohol = 0.6 fl oz (NIAAA).
+- 1 BVG = 1 US standard drink = 14 g of pure alcohol = 0.6 fl oz (NIAAA).
 - Each alcoholic ingredient: `oz x ABV / 0.6`. A drink is the sum. Mixers add nothing.
-- Example: martini, 2.5 oz at 40% plus 0.5 oz vermouth at 18% = 1.8 std.
+- Example: martini, 2.5 oz at 40% plus 0.5 oz vermouth at 18% = 1.8 BVG.
 - Drinks logged after midnight and before 4 am count toward the night before (change in Settings).
 
 ## Using it
