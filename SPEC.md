@@ -164,3 +164,6 @@ localStorage key `drinkTally.v1`:
 
 ## Out of scope for v1 (list in README as "Backlog")
 Accounts, cloud sync, backend, push notifications, Apple Health, money or calorie stats, per-day drink plans, multiple users, barcode or photo logging.
+
+## Changes after v1
+- v1.1 (2026-11-07): The app name is "Tipsy" (manifest name and short_name, page title, home screen title). The display unit is "BVG" (1 BVG = 1 US standard drink). Every "std" in the UI copy above now reads "BVG", for example "Martini, 1.8 BVG". The CSV column is `bvg`. The data model does not change: entries keep the `std` field, the storage key stays `drinkTally.v1`, and the repo and URL stay `drink-tally`.

@@ -1,5 +1,5 @@
 // Cache-first app shell. Bump CACHE (and VERSION in app.js) on every release.
-const CACHE = 'tally-v1.0.0';
+const CACHE = 'tally-v1.1.0';
 const ASSETS = [
   './',
   './index.html',

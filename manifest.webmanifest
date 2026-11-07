@@ -1,6 +1,6 @@
 {
-  "name": "Drink Tally",
-  "short_name": "Tally",
+  "name": "Tipsy",
+  "short_name": "Tipsy",
   "description": "A private weekly drink log that counts standard drinks.",
   "start_url": "./",
   "scope": "./",

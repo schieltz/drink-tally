@@ -1,4 +1,4 @@
-// Pure logic for Drink Tally. No DOM access. Tested with `node --test`.
+// Pure logic for Tipsy. No DOM access. Tested with `node --test`.
 
 export const STD_ETHANOL_OZ = 0.6; // 1 US standard drink = 14 g = 0.6 fl oz ethanol (NIAAA)
 export const SHOT_OZ = 1.5;
@@ -385,7 +385,7 @@ function hhmm(ts) {
 }
 
 export function toCSV(entries) {
-  const head = ['day', 'time', 'drink', 'std', 'components', 'note'];
+  const head = ['day', 'time', 'drink', 'bvg', 'components', 'note'];
   const rows = (entries || [])
     .slice()
     .sort((a, b) => (a.day < b.day ? -1 : a.day > b.day ? 1 : a.ts - b.ts))
